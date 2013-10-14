@@ -9,9 +9,12 @@ The class "introduces the concepts, applications, algorithms, programming, and d
 
 The ratings were created as a result of the first assignment: rate 100 movies on a scale from 1 to 5.  There are a total of ______ ratings from _____ users.
 
-Files
+Data
 -----
-TODO
+recsys-data-movie-titles.csv - (movie_id, title)
+recsys-data-ratings.csv - (user_id, movie_id, rating)
+
+
 
 Technologies
 ------------
