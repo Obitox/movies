@@ -7,7 +7,9 @@ Data science project to visualize movie ratings from Courser's [Introduction to 
 
 The class "introduces the concepts, applications, algorithms, programming, and design of recommender systems--software systems that recommend products or information, often based on extensive personalization."
 
-The ratings were created as a result of the first assignment: rate 100 movies on a scale from 1 to 5.  There are a total of ______ ratings from _____ users.
+Ratings used in this visualization were created as a result of the first assignment: rate 100 movies on a scale from 1 to 5.  There are a total of 338,354 ratings from 5,563 users. Each data point represents a movie.  Hover over the data point to see the mean rating for that movie.  
+
+The X axis is a score computed by subtracting the population mean from the movie mean (necessary to create a better range for displaying the data).  The Y axis is the number of ratings that particular movie received.
 
 Data
 -----
