@@ -13,8 +13,9 @@ The X axis is a score computed by subtracting the population mean from the movie
 
 Data
 -----
-recsys-data-movie-titles.csv - (movie_id, title)
-recsys-data-ratings.csv - (user_id, movie_id, rating)
+recsys-data-movie-titles.csv - Contains id/title tuples (movie_id, title)
+
+recsys-data-ratings.csv - Contains rating tuples (user_id, movie_id, rating)
 
 
 
