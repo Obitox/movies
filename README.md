@@ -3,7 +3,7 @@ movies
 
 Project
 -------
-Data science project to visualize movie ratings from Courser's [Introduction to Recommender Sytems](https://class.coursera.org/recsys-001/) class.
+Data science project to visualize movie ratings from Coursera's [Introduction to Recommender Sytems](https://class.coursera.org/recsys-001/) class.
 
 The class "introduces the concepts, applications, algorithms, programming, and design of recommender systems--software systems that recommend products or information, often based on extensive personalization."
 
