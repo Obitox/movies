@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <meta charset="utf-8">
-  <link href='lib/bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <link href='lib/foundation/css/foundation.min.css' rel='stylesheet' type='text/css'>
   <link href='styles.css' rel='stylesheet' type='text/css'>
-  <body>
-  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="lib/d3/d3.v3.min.js"></script>
   <script src="lib/underscore.js"></script>
+  <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
   
 
   <meta charset="utf-8">
@@ -24,73 +24,69 @@
   </style>
 <body>
 
-<div class="row">
-  <div class="col-md-5">
-    <div id="viz"></div>
+  <!-- Header and Nav -->
+
+  <div class="row">
+    <div class="large-12 columns">
+      <h1>Movie Ratings</h1>
+    </div>
   </div>
 
-  <div class="col-md-7">
-    <table class="table table-hover">
-      <thead>
-        <th>Movie Name</th>
-        <th>Average Rating</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr class="movie-data" id="index-0">
-        <td>Avatar</td>
-        <td>5.0</td>
-      </tr>
-      <tr class="movie-data" id="index-1">
-        <td>True Lies</td>
-        <td>3.2</td>
-      </tr>
-      </tbody>
-    </table>
+  <!-- End Header and Nav -->
+
+
+  <!-- First Band (Image) -->
+
+  <div class="row">
+    <div id="viz" class="large-6 columns">
+    </div>
   </div>
-  
-  </div>
-</div>
+
+  <!-- Footer -->
+
+  <footer class="row">
+    <div class="large-12 columns">
+      <hr />
+      <div class="row">
+        <div class="large-6 columns">
+          <a href="https://github.com/calvdee/movies/blob/master/README.md" target="_blank">More info here</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
   var lastMovieIndex = -1;
 
   // From http://mkweb.bcgsc.ca/circos/guide/tables/
-  var matrix = [
-    [11975,  5871, 8916, 2868],
-    [ 1951, 10048, 2060, 6171],
-    [ 8010, 16145, 8090, 8045],
-    [ 1013,   990,  940, 6907]
-  ];
-
-
   var matrix2 = [
-[1,4176.3751301915,202.6063296944,6614.3703646958,5958.3563683555,9181.2796937302,5283.3817387],
-[8482.1687685326,1,2379.9371207133,9976.4532502741,285.4674588889,4203.5767296329,3091.6680209339],
-[8863.4764729068,3693.9693288878,1,9525.6087183952,9645.8290610463,8841.0756597295,9938.4576594457],
-[1856.8784743548,9503.2068807632,6488.6685321108,1,3340.3528016061,5691.308984533,3918.9760200679],
-[3204.2719097808,8646.9088867307,3577.0345991477,9861.8716280907,1,7551.0882399976,3575.8293094114],
-[2186.5078900009,1727.4633701891,3778.4356391057,8800.8782546967,7685.8197432011,1,2959.7153328359],
-[4084.2599933967,6167.9885117337,5339.6524582058,4060.7132483274,6453.4559706226,9543.2291878387,1]
-
+    [9052, 15141, 11348, 10115, 11127, 5519],
+    [21376, 32823, 22091, 18591, 21387, 10638],
+    [16750, 25367, 17560, 15082, 16894, 8455],
+    [99421, 135038, 71721, 52115, 63816, 31900],
+    [129466, 171295, 85474, 59229, 70209, 35228],
+    [787373, 979560, 394907, 212769, 259581, 128765],
   ];
 
-  var color = d3.scale.category10();
+
+  var color = d3.scale.ordinal()
+              .domain([1, 2, 3, 4, 5])
+              .range(colorbrewer.RdYlBu[5]);
+
+// var color = d3.scale.ordinal()
+//     .domain(["6TH", "7TH", "5TH", "4TH"])
+//     .range(colorbrewer.RdYlBu[4]);
 
   var chord = d3.layout.chord()
       .padding(.05)
       .sortSubgroups(d3.descending)
       .matrix(matrix2);
 
-  var width = 960,
-      height = 500,
+  var width = 1024,
+      height = 768,
       innerRadius = Math.min(width, height) * .41,
       outerRadius = innerRadius * 1.1;
-
-  // var fill = d3.scale.ordinal()
-  //     .domain(d3.range(7))
-  //     .range(d3.scale.category10());
 
   var svg = d3.select("#viz").append("svg")
       .attr("width", width)
@@ -99,18 +95,20 @@
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 
-
-  svg.append("g").selectAll("path")
+  var groups = svg.append("g").selectAll("path")
       .data(chord.groups)
     .enter().append("path")
       .style("fill", function(d) { return color(d.index); })
       .style("stroke", function(d) { return color(d.index); })
       .classed("class", function(d) { return "group-" + d.index })
+
+
+  var groupPath = svg.selectAll("path")      
       .attr("d", d3.svg.arc().innerRadius(innerRadius).outerRadius(outerRadius))
       .on("mouseover", fade(.1))
       .on("mouseout", fade(1));
 
-  svg.append("g")
+  var chords = svg.append("g")
       .attr("class", "chord")
     .selectAll("path")
       .data(chord.chords)
@@ -120,16 +118,23 @@
       .style("opacity", 1)
       .on("mouseover", function(g) { percentForChord(g) });
 
-  // Returns an array of tick angles and labels, given a group.
-  function groupTicks(d) {
-    var k = (d.endAngle - d.startAngle) / d.value;
-    return d3.range(0, d.value, Math.floor(d.value/2)).map(function(v, i) {
-      return {
-        angle: v * k + d.startAngle,
-        label: "Label"
-      };
+
+    chords.append("title").text(function(d) {
+      return "blah";
     });
-  }
+
+    // Add a text label.
+    var groupText = groups.append("text")
+        .attr("x", 6)
+        .attr("dy", 15);
+
+    groupText.append("textPath")
+        .attr("xlink:href", function(d, i) { return "#group" + i; })
+        .text(function(d, i) { return i + " stars" });
+
+    // Remove the labels that don't fit. :(
+    // groupText.filter(function(d, i) { return groupPath[0][i].getTotalLength() / 2 - 16 < this.getComputedTextLength(); })
+    //     .remove();
 
   // Returns an event handler for fading a given chord group.
   function fade(opacity) {
@@ -142,16 +147,6 @@
           .filter(function(d) { return d.source.index != i && d.target.index != i; })
         .transition()
           .style("opacity", opacity);
-
-      // Color the table
-      d3.selectAll("#index-"+g.index)
-        .style("background", color(g.index));
-
-      d3.selectAll(".movie-data")
-        .filter(function(d,idx,e) { return idx != i || lastMovieIndex == i; })
-        .style("background", "white");
-
-      lastMovieIndex = i;
     };
   }
 
@@ -176,7 +171,4 @@
   }
 
   </script>
-  <p>
-    <a href="https://github.com/calvdee/movies/blob/master/README.md" target="_blank">More info here</a>
-  </p>
 </html>
