@@ -1,10 +1,7 @@
 recsys-movies
 ======
 
--------
-Visualizing movie ratings from Coursera's [Introduction to Recommender Sytems](https://www.coursera.org/course/recsys) class.
-
-The class introduces "concepts, applications, algorithms, programming, and design of [recommender systems](http://en.wikipedia.org/wiki/Recommender_system)."
+Visualization of movie ratings from Coursera's [Introduction to Recommender Sytems](https://www.coursera.org/course/recsys) class.
 
 Data
 -----
