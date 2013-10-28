@@ -7,4 +7,4 @@ Data
 -----
 - 338,354 ratings 
 - 5,563 users
-- 1-5 rating scale
+- 0.5-5 rating scale
